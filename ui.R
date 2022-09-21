@@ -21,7 +21,7 @@ dashboardPage(
                                                                  'MNT', ''), width='200px')
       ),
       conditionalPanel(
-        "input.pwd=='MNT' || input.pwd=='W1R2F3'",
+        "input.pwd=='MNT'",
         
         # Button =================================================================
         conditionalPanel(
@@ -277,8 +277,8 @@ dashboardPage(
       conditionalPanel(
         "input.ViewMode == 'AE'", 
         radioGroupButtons("aeTempoId", label=titSty(tl("Temporalidade")), 
-                          choiceNames  = c(tl('Dia'), tl('Mês'), tl('Saz.'), tl('Chuv.')), 
-                          choiceValues = c('D','M','S',"R"), selected='M', 
+                          choiceNames  = c(tl('Dia'), tl('Mês'), tl('Saz.'), tl('Chuv.'), tl('Custom')), 
+                          choiceValues = c('D','M','S',"R","C"), selected='M', 
                           direction = "horizontal", status = "primary"),
         
         radioGroupButtons("aeTypeId", label=titSty(tl("Tipo")), 
@@ -321,6 +321,12 @@ dashboardPage(
         conditionalPanel(
           "input.aeTempoId=='R'", 
           uiOutput("rainyImgControl")
+        ),
+        
+        # Custom period Images --------------------------------------------------
+        conditionalPanel(
+          "input.aeTempoId=='C'", 
+          uiOutput("customImgControl")
         ),
         
         # SHOW REG for FIELDS ----------------------------------------------------

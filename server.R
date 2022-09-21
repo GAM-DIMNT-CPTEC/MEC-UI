@@ -125,6 +125,30 @@ function(input, output, session) {
     )
   })
   
+  output$customImgControl <- renderUI({
+    strSearch = switch(input$aeTypeId,
+                       PREVxOBS= "FCT",
+                       BIAS= "BIAS",
+                       SRMSE= "SRMSE",
+                       SCORR= "SCORR")
+
+    patt <- paste0("^Img_", strSearch, "_", GetVar(), "_(.*)_", CFG$pers, "_(.*)_", input$runTimeId, "\\.jpeg")
+    print(patt)
+    imgs <- dir(path=paste0(CFG$ename, '/IMG/'), pattern=patt)
+    print(imgs)
+    imgs <- sort(unique(regmatches(imgs, regexpr(CFG$pers, imgs))))
+    print(imgs)
+    #monthImgs <- gsub(pattern = paste0("Img_FCT_", GetVar(), "_"), replacement = "", monthImgs)
+    #monthImgs <- gsub(pattern = paste0("(", paste0(CFG$models, collapse = "|"), ")_"), replacement = "", monthImgs)
+    #monthImgs <- sort(unique(substring(monthImgs, 1, 6)), decreasing = T)
+    #selectInput("monthImgId", titSty(tl("Mês")), 
+    #            choices = monthImgs, selected = monthImgs[1])
+    pickerInput("customImgId", titSty(tl("Período")),
+                choices = imgs, selected = imgs[1],
+                options = list(`live-search`=T)
+    )
+  })
+  
   # ============================================================================
   # CONSUMO DE MEMÓRIA (ESCONDIDO AO LADO DO TÍTULO)
   # ============================================================================
@@ -233,7 +257,8 @@ function(input, output, session) {
       "D"=paste0("D", ifelse(input$dayImgId=="0", "-", ""), input$dayImgId),
       "M"=input$monthImgId,
       "S"=input$seasonImgId,
-      "R"=input$rainyImgId
+      "R"=input$rainyImgId,
+      "C"=input$customImgId
     )
   }
   
@@ -556,9 +581,6 @@ function(input, output, session) {
           DT_COR$MOD = NA_real_
           
           if (!is.na(config$DSCONT_DIA[.(ltime, reg, mod, 'AVG'), VALUE][1])) {
-            print(config$DSCONT_DIA[.(ltime, reg, mod, "AVG"), DT])
-            print(config$DSCONT_DIA[.(ltime, reg, mod, 'AVG'), VALUE])
-                  
             DT_COR[.(config$DSCONT_DIA[.(ltime, reg, mod, "AVG"), DT]),
                    MOD := config$DSCONT_DIA[.(ltime, reg, mod, 'AVG'), VALUE]]
             COR <- cor(DT_COR$OBS, DT_COR$MOD, use = 'pairwise.complete.obs')
