@@ -1,5 +1,11 @@
-# MEC UI
-## Model Evaluations Comparator User Interface
+# MEC-UI
+## Model Evaluations Comparator GUI (Graphical User Interface)
+
+### Consists of two parts
+
+### 1) The MEC-PRE, which is a set of shell scripts, GrADS scripts and CDO commands that preprocess model and the corresponding observational raw data in order to convert them to a common spatial and temporal domain to be the input of a set of R scripts that are responsible to perform the model evaluation itself. MEC-PRE is available at https://github.com/Garcia-INPE/MEC-PRE.
+
+### 2) The MEC-GUI, a GUI (Graphical User Interface) coded in R to visualize the evaluation. This tool is independent of the preprocessing part, due to it uses ordinary ASCII files as input, which means that evaluation results can be generated using any software. 
 
 ### Instalação dos executáveis
 - Abra um terminal e vá no diretório raiz sob o qual o MEC-UI será instalado
